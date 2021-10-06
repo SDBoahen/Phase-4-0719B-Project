@@ -1,0 +1,2 @@
+class Woobly < ApplicationRecord
+end
