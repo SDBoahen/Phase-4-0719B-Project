@@ -7,29 +7,59 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 
-
-
 user1 = User.create(username: "Sam123", password: "123")
 user2 = User.create(username: "Mas321", password_digest: "123")
 
 # t.string :username
 # t.string :password_digest 
 
-puts "
-Users Seeded - Yay!!!!  :)
+# puts "
+# Users Seeded - Yay!!!!  :)
 
+# "
+
+
+
+
+
+
+
+woobly = Woobly.create(name: "Woobly", favorite_snack: "Ice Cream")
+joobly = Woobly.create(name: "Joobly", favorite_snack: nil)
+
+puts "
+🥰!!!!Woobliiiiiiiies!!!!🥰
 "
 
 
 
-# woobly = Woobly.create(name: "Woobly")
 
-# puts "🥰!!!!Woobliiiiiiiies!!!!🥰"
+snack_chips = Snack.create(name: "Chips", flavor: "salty")
+snack_cookies = Snack.create(name: "Cookies", flavor: "sweet")
+snack_icecream = Snack.create(name: "Ice Cream", flavor: "sweet")
+snack_yums = Snack.create(name: "Yumz", flavor: "yummy")
+
+puts "
+SNACKZZZZ Seeded!
+"
 
 
 
 
-# snack = Snack.create(name: "Yumz")
+woobly_snack1 = WooblySnack.create(
+    woobly: woobly, 
+    snack: snack_icecream, 
+    likes_snack: true, 
+    favorite_snack: true
+)
 
-# puts "SNACKZZZZ"
+joobly_snack1 = WooblySnack.create(
+    woobly_id: joobly.id, 
+    snack_id: snack_yums.id, 
+    likes_snack: true, 
+    favorite_snack: false
+)
 
+puts "
+WooblySnacks Seeded!
+"

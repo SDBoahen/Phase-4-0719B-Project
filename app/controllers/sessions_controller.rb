@@ -23,9 +23,14 @@ class SessionsController < ApplicationController
     # <<<<  Logging Out
     # DELETE /login
     def destroy
+
+        session 
+        
+        byebug
+
         session.delete(:user_id)
             # session[:user_id] = nil 
-        # byebug
+        byebug
 
         # head :no_content 
         render json: { session_user: session[:user_id] }

@@ -10,13 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_10_06_145120) do
+ActiveRecord::Schema.define(version: 2021_10_13_211333) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "randies", force: :cascade do |t|
+    t.string "random_name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "snacks", force: :cascade do |t|
     t.string "name"
+    t.string "flavor"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -30,8 +37,22 @@ ActiveRecord::Schema.define(version: 2021_10_06_145120) do
 
   create_table "wooblies", force: :cascade do |t|
     t.string "name"
+    t.string "favorite_snack"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "woobly_snacks", force: :cascade do |t|
+    t.boolean "likes_snack"
+    t.boolean "favorite_snack"
+    t.bigint "woobly_id", null: false
+    t.bigint "snack_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["snack_id"], name: "index_woobly_snacks_on_snack_id"
+    t.index ["woobly_id"], name: "index_woobly_snacks_on_woobly_id"
+  end
+
+  add_foreign_key "woobly_snacks", "snacks"
+  add_foreign_key "woobly_snacks", "wooblies"
 end

@@ -1,0 +1,2 @@
+class Randy < ApplicationRecord
+end

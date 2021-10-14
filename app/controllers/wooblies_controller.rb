@@ -1,5 +1,6 @@
 class WoobliesController < ApplicationController
-  before_action :set_woobly, only: [:show, :update, :destroy]
+  # before_action :set_woobly, only: [:show, :update, :destroy]
+
 
   # GET /wooblies
   def index
@@ -10,44 +11,108 @@ class WoobliesController < ApplicationController
     # render json: Woobly.all
   end
 
-  # GET /wooblies/1
+
+  # GET /wooblies/:id
   def show
-    render json: @woobly
+    found_woobly = Woobly.find_by(id: params[:id])
+
+    render json: found_woobly
   end
+
 
   # POST /wooblies
   def create
-    @woobly = Woobly.new(woobly_params)
 
-    if @woobly.save
-      render json: @woobly, status: :created, location: @woobly
-    else
-      render json: @woobly.errors, status: :unprocessable_entity
-    end
   end
 
-  # PATCH/PUT /wooblies/1
+
+  # PATCH/PUT /wooblies/:id
   def update
-    if @woobly.update(woobly_params)
-      render json: @woobly
+ 
+    woobly_to_update = Woobly.find_by(id: params[:id])
+
+    if woobly_to_update
+      # Did we even find a Woobly? :-/
+
+
+      if woobly_to_update.update(update_woobly_params)
+          #   params_id_variable = params[:id]
+          # if woobly_to_update.update_favorite_snack(
+          #       update_woobly_params, 
+          #       params_id_variable
+          #     )
+
+
+          #  .valid?  is redundant here
+          # woobly_to_update.valid?
+          # woobly_to_update.update()
+          ##  cause we're going to have to call .update again anyways 
+
+        render json: woobly_to_update
+
+
+      else # We Were NOT Able to Update
+
+
+        byebug
+
+        if woobly_to_update.errors
+          render json: { error: woobly_to_update.errors.full_messages }
+        else
+          byebug
+          render json: { error: "Something Went Wrong :(" }
+          # A possible error would be a  :favorite_snack  that does not correspond with the snacks in the database 
+        end
+
+
+      end
+    
+
     else
-      render json: @woobly.errors, status: :unprocessable_entity
+      byebug
+      # logic for Woobly not being found
+      render json: { error: "Sorry, Woobly NOT Found :(" }
+
     end
+
+    # render json: { message: "We're Still Working On This Controller Action (update)"}
+
   end
+
 
   # DELETE /wooblies/1
   def destroy
-    @woobly.destroy
   end
+
+
+
 
   private
     # Use callbacks to share common setup or constraints between actions.
-    def set_woobly
-      @woobly = Woobly.find(params[:id])
+    
+    # Only allow a list of trusted parameters through.
+    def create_woobly_params
     end
 
-    # Only allow a list of trusted parameters through.
-    def woobly_params
-      params.require(:woobly).permit(:name)
+
+    def update_woobly_params
+        params.permit(:favorite_snack)
     end
+
+
+
+
+
+####  END
 end
+
+
+
+
+
+
+
+
+  # def set_woobly
+  #   @woobly = Woobly.find(params[:id])
+  # end
