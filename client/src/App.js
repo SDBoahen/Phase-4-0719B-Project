@@ -19,6 +19,12 @@ function App() {
     console.log("Is Anyone Logged In?? : ", anyUserActive)
 
 
+    const [allTheWooblies, setAllTheWooblies] = useState( [] )
+      console.log("State of Our allTheWooblies: ", allTheWooblies)  //
+    const [allTheSnacks, setAllTheSnacks] = useState( [] )
+      console.log("State of Our allTheSnacks: ", allTheSnacks)  //
+
+
 
     useEffect( ()=>{
 
@@ -26,6 +32,28 @@ function App() {
       fetch("http://localhost:3000/users")
       .then(r => r.json())
       .then(console.log)
+
+
+
+
+      fetch("http://localhost:3000/wooblies")
+      .then(r => r.json())
+      .then( (fetchedWooblies)=>{ console.log(fetchedWooblies)
+      
+        setAllTheWooblies(fetchedWooblies)
+      
+      })
+      // .then(console.log)
+
+
+      fetch("http://localhost:3000/snacks")
+      .then(r => r.json())
+      .then( (fetchedSnacks)=>{ console.log(fetchedSnacks)
+      
+        setAllTheSnacks(fetchedSnacks)
+      
+      })
+      // .then(console.log)
 
 
     } , [] )
@@ -323,6 +351,140 @@ function App() {
 
 
 
+    //// Responsible for WooblySnack Creation
+
+    const [wooblyForWooblySnack, setWooblyForWooblySnack] = useState( 0 )  // woobly's  :id
+      console.log("wooblyForWooblySnack ->  ", wooblyForWooblySnack)  //
+    const [snackForWooblySnack, setSnackForWooblySnack] = useState( 0 )  // woobly's  :id
+      console.log("snackForWooblySnack ->  ", snackForWooblySnack)
+
+
+      const updateWooblyForWooblySnackDropDown =(sythEvent)=>{
+        console.log("In updateWooblyForWooblySnackDropDown")
+
+        setWooblyForWooblySnack(sythEvent.target.value)
+
+      }
+      const updateSnackForWooblySnackDropDown =(sythEvent)=>{
+        console.log("In updateSnackForWooblySnackDropDown")
+
+        setSnackForWooblySnack(sythEvent.target.value)
+
+      }
+
+
+      const handleSubmitForWooblySnackCREATE =(sythEvent)=>{ 
+        sythEvent.preventDefault()
+          // console.log(sythEvent)  //
+        console.log("In handleSubmitForWooblySnackCREATE")
+          console.log("❗️❗️ REMEMBER THE BYEBUG ❗️❗️")  //
+  
+  
+          const wooblySnackObj = {
+  
+            woobly_id: wooblyForWooblySnack,
+            snack_id: snackForWooblySnack
+  
+          } 
+          console.log("WOOBLYSNACK WE WILL CREATE: ", wooblySnackObj)  //
+  
+        fetch("http://localhost:3000/woobly_snacks", {
+  
+          method: "POST",
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify( wooblySnackObj )
+  
+        })
+        .then(r => r.json())
+        .then(console.log)
+  
+
+      }
+
+
+    const renderWooblySnackNEWForm =()=>{ 
+
+      return(<>
+      
+
+        <form onSubmit={handleSubmitForWooblySnackCREATE}>
+
+
+          <h2>Match a Woobly & a Snack </h2> 
+
+          {/* DROP DOWNS FOR WOOBLIES - WooblySnack */}
+
+            <select onChange={updateWooblyForWooblySnackDropDown}>
+
+              <option value={0} >Choose a Woobly :)</option>
+              {/* Default Dropdown Choice */}
+
+              {allTheWooblies.map(eachWoobly =>{
+
+                return(<option value={eachWoobly.id} >{eachWoobly.name}</option>)
+
+              })}
+                
+            </select> 
+
+
+            {/* DROP DOWNS FOR SNACKS - WooblySnack */}
+
+            <select onChange={updateSnackForWooblySnackDropDown}>
+
+              <option value={0} >Choose a Snack :)</option>
+              {/* Default Dropdown Choice */}
+
+              {allTheSnacks.map(eachSnack =>{
+
+                return(<option value={eachSnack.id} >{eachSnack.name}</option>)
+
+              })}
+                
+            </select> 
+
+            <input type="submit" value="YAY! Wooby & Snack! :)" />
+
+
+        </form>
+
+
+
+
+
+        <br></br>
+        <br></br>
+        <br></br>
+        <br></br>
+
+
+        <select onChange={updateWooblyForWooblySnackDropDown}>
+          {/* <option value="woobly" >Woobly</option> */}
+          <option value={0} >Choose a Woobly :)</option>
+            {/* Default Dropdown Choice */}
+            
+          <option value={1} >Woobly</option>
+          <option value={2}>Joobly</option>
+        </select> 
+
+
+        <select>
+          
+        </select> 
+
+      
+      </>)
+
+    }
+
+    ////////
+
+
+
+
+
+
+
   return (
     <div className="App">
 
@@ -330,6 +492,8 @@ function App() {
 
         {renderSignupAndLogin()}
       
+        {renderWooblySnackNEWForm()}
+
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
       </header>

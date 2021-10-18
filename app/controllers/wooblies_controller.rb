@@ -30,7 +30,8 @@ class WoobliesController < ApplicationController
   def update
  
     woobly_to_update = Woobly.find_by(id: params[:id])
-
+    # Find_by : WORST-CASE :: nil == falsy (F+)
+    
     if woobly_to_update
       # Did we even find a Woobly? :-/
 
