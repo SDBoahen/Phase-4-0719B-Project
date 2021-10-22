@@ -4,6 +4,8 @@ Rails.application.routes.draw do
   resources :snacks
   resources :wooblies, only: [:index, :show, :update]
 
+  #  Yay!
+
 
 
 

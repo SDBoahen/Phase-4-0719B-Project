@@ -1,3 +1,3 @@
 class SnackSerializer < ActiveModel::Serializer
-  attributes :id, :name
+  attributes :id, :name, :flavor
 end

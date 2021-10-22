@@ -3,6 +3,8 @@ import './App.css';
 
 import { useState, useEffect } from 'react'
 
+import SearchBar from './searchBar';
+
 
 
 
@@ -481,6 +483,103 @@ function App() {
 
 
 
+    const[snackWeAreSearchingFor, setSnackWeAreSearchingFor] = useState("")
+
+
+      const typingInSearchBar =(sythEvent)=>{ // e , se
+        console.log(sythEvent.target.value)  //
+
+        setSnackWeAreSearchingFor(sythEvent.target.value)
+        
+      }
+      const renderFilteredSnacks =()=>{
+        console.log("IN renderFilteredSnacks")  //
+
+        let filteredAllTheSnacks 
+
+
+        ////  WITHOUT (.include)
+        // if(snackWeAreSearchingFor != ""){
+
+        //   filteredAllTheSnacks = allTheSnacks.filter(eachSnackToFilter => eachSnackToFilter.name == snackWeAreSearchingFor)
+        //   // let filteredAllTheSnacks = allTheSnacks.filter(eachSnackToFilter => eachSnackToFilter.name == "Chips")
+
+        // }else{
+
+        //   filteredAllTheSnacks = allTheSnacks
+
+        // }
+
+        ////  WITH (.include)
+        filteredAllTheSnacks = allTheSnacks.filter(    eachSnackToFilter => 
+          
+          eachSnackToFilter.name.toLowerCase().includes(snackWeAreSearchingFor.toLowerCase()) 
+          
+          || //&&
+          
+          eachSnackToFilter.flavor.toLowerCase().includes(snackWeAreSearchingFor.toLowerCase())
+        
+        )
+        // filteredAllTheSnacks = allTheSnacks.filter(    eachSnackToFilter => eachSnackToFilter.name.toLowerCase().includes(snackWeAreSearchingFor.toLowerCase())    )
+
+
+
+        return(
+
+          filteredAllTheSnacks.map(eachSnack => {
+            
+            return(<>
+            
+              <h3>{eachSnack.name}</h3>
+              <h5>{eachSnack.flavor}</h5>
+              {/* <h3>THIS IS WITH -> {eachSnack.name}</h3> */}
+
+            </>)
+
+          })
+        )
+
+      }
+
+
+
+
+    // const searchBar =()=>{
+
+
+    //   return(<>
+
+    //    <>
+    //     <br></br>
+    //     <br></br>
+    //     <br></br>
+    //     <br></br>
+    //    </>
+
+    //     {/* <form> */}
+
+    //       {/* <input value={snackWeAreSearchingFor} onChange={(se)=> typingInSearchBar(se)}/> */}
+    //       <input value={snackWeAreSearchingFor} onChange={typingInSearchBar}/>
+
+    //       {renderFilteredSnacks()}
+
+
+    //     {/* </form> */}
+
+
+    //     <br></br>
+    //     <br></br>
+    //     <br></br>
+    //     <br></br>
+
+    //   </>)
+
+
+    // }
+    // export default ....
+
+
+
 
 
 
@@ -491,6 +590,17 @@ function App() {
         <h1> Hi :) </h1>
 
         {renderSignupAndLogin()}
+
+        <SearchBar 
+
+          ////  Variables 
+          snackWeAreSearchingFor={snackWeAreSearchingFor} 
+          
+          //// Funtions
+          typingInSearchBar={typingInSearchBar} renderFilteredSnacks={renderFilteredSnacks} 
+          
+        />
+        {/* {searchBar()} */}
       
         {renderWooblySnackNEWForm()}
 
